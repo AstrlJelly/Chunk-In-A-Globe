@@ -3,14 +3,16 @@ package me.modmuss50.dg.globe;
 import java.util.Collections;
 import java.util.List;
 
+import com.mojang.serialization.MapCodec;
+
 import me.modmuss50.dg.DimensionGlobe;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.Material;
+// import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
+// import net.minecraft.block.entity.BlockEntityTicker;
+// import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContext;
@@ -21,10 +23,11 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 
 public class GlobeBlock extends BlockWithEntity {
 	public GlobeBlock() {
-		super(FabricBlockSettings.of(Material.GLASS).nonOpaque());
+		super(FabricBlockSettings.create().nonOpaque());
 	}
 
 	@Override
@@ -49,9 +52,9 @@ public class GlobeBlock extends BlockWithEntity {
 	}
 
 	@Override
-	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+	public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
 		dropStack(world, pos, getDroppedStack(world, pos));
-		super.onBreak(world, pos, state, player);
+		return super.onBreak(world, pos, state, player);
 	}
 
 	public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
@@ -59,7 +62,7 @@ public class GlobeBlock extends BlockWithEntity {
 	}
 
 	@Override
-	public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+	public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
 		return getDroppedStack(world, pos);
 	}
 
@@ -73,8 +76,13 @@ public class GlobeBlock extends BlockWithEntity {
 		return ItemStack.EMPTY;
 	}
 
+	// @Override
+	// public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+	//     return checkType(type, DimensionGlobe.globeBlockEntityType, (world1, pos, state1, be) -> GlobeBlockEntity.tick(world1, pos, state1, be));
+	// }
+
 	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-	    return checkType(type, DimensionGlobe.globeBlockEntityType, (world1, pos, state1, be) -> GlobeBlockEntity.tick(world1, pos, state1, be));
+	protected MapCodec<? extends BlockWithEntity> getCodec() {
+		return null;
 	}
 }

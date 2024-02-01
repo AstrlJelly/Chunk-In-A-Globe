@@ -33,9 +33,11 @@ public class GlobeBlockItem extends BlockItem {
 
 	@Override
 	public ActionResult place(ItemPlacementContext context) {
-		if (context.getPlayer().world.getRegistryKey().equals(DimensionGlobe.globeDimension)) {
-			if (!context.getPlayer().world.isClient) {
-				context.getPlayer().sendMessage(Text.translatable("globedimension.block.error"), false);
+		PlayerEntity player = context.getPlayer();
+		if (player.getWorld().getRegistryKey().equals(DimensionGlobe.globeDimension)) {
+			var world = player.getWorld();
+			if (!world.isClient) {
+				player.sendMessage(Text.translatable("globedimension.block.error"), false);
 			}
 			return ActionResult.FAIL;
 		}

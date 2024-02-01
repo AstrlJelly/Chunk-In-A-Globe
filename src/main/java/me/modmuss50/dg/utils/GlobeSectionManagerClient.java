@@ -10,7 +10,8 @@ import me.modmuss50.dg.globe.GlobeBlockItem;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
+import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;
+// import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 import net.minecraft.util.Identifier;
 
 
@@ -69,8 +70,8 @@ public class GlobeSectionManagerClient {
 		for (Integer i : updateQueue) {
 			buf.writeInt(i);
 		}
-
-		CustomPayloadC2SPacket serverBoundPacket = new CustomPayloadC2SPacket(new Identifier(DimensionGlobe.MOD_ID, "update_request"), buf);
+		// new Identifier(DimensionGlobe.MOD_ID, "update_request");
+		CustomPayloadC2SPacket serverBoundPacket = new CustomPayloadC2SPacket(buf);
 		MinecraftClient.getInstance().player.networkHandler.sendPacket(serverBoundPacket);
 
 		updateQueue.clear();

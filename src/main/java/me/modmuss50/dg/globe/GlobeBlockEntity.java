@@ -104,7 +104,7 @@ public class GlobeBlockEntity extends BlockEntity {
 			throw new RuntimeException();
 		}
 
-		if (playerEntity.world.getRegistryKey() == DimensionGlobe.globeDimension) {
+		if (playerEntity.getWorld().getRegistryKey() == DimensionGlobe.globeDimension) {
 			transportPlayerOut(playerEntity);
 		} else {
 			if (globeID == -1) {

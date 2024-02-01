@@ -109,7 +109,8 @@ public class GlobeSection {
 			Identifier entityType = new Identifier(entityData.getString("entity_type"));
 
 			if (entityType.toString().equals("minecraft:player")) {
-				GameProfile gameProfile = MinecraftClient.getInstance().getSession().getProfile();
+				var session = MinecraftClient.getInstance().getSession();
+				GameProfile gameProfile = new GameProfile(session.getUuidOrNull(), session.getUsername());
 				if (entityData.contains("game_profile")) {
 					gameProfile = NbtHelper.toGameProfile(entityData.getCompound("game_profile"));
 				}

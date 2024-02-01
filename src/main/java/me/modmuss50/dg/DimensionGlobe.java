@@ -47,7 +47,7 @@ public class DimensionGlobe implements ModInitializer {
 	public static ItemGroup GLOBE_ITEM_GROUP;
 	public static final TagKey<Block> BASE_BLOCK_TAG = TagKey.of(RegistryKeys.BLOCK, new Identifier(MOD_ID, "base_blocks"));
 
-	public static final SpecialRecipeSerializer<GlobeCraftingRecipe> GLOBE_CRAFTING = Registry.register(Registries.RECIPE_SERIALIZER, new Identifier(MOD_ID, "globe_crafting"), new SpecialRecipeSerializer<>(GlobeCraftingRecipe::new));
+	public static final SpecialRecipeSerializer<GlobeCraftingRecipe> GLOBE_CRAFTING = Registry.register(Registries.RECIPE_SERIALIZER, new Identifier(MOD_ID, "globe_crafting"), new SpecialRecipeSerializer<GlobeCraftingRecipe>(GlobeCraftingRecipe::new));
 
 	@Override
 	public void onInitialize() {
@@ -59,7 +59,7 @@ public class DimensionGlobe implements ModInitializer {
 		globeBlockItem.appendBlocks(Item.BLOCK_ITEMS, globeBlockItem);
 		Registry.register(Registries.ITEM, globeID, globeBlockItem);
 
-		GLOBE_ITEM_GROUP = FabricItemGroup.builder(new Identifier("example", "test_group"))
+		GLOBE_ITEM_GROUP = FabricItemGroup.builder()
 			    .displayName(Text.of("Globes"))
 			    .icon(() -> new ItemStack(globeBlockItem))
 			    .entries((context, entries) -> {

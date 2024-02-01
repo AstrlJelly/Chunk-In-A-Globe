@@ -10,7 +10,8 @@ import me.modmuss50.dg.DimensionGlobe;
 import me.modmuss50.dg.globe.GlobeBlockEntity;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
+import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket;
+// import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
@@ -67,7 +68,8 @@ public class GlobeSectionManagerServer {
 			buf.writeNbt(section.toEntityTag(blockEntity.isInner() ? blockEntity.getInnerScanPos() : globe.getGlobeLocation()));
 		}
 
-		CustomPayloadS2CPacket clientBoundPacket = new CustomPayloadS2CPacket(new Identifier(DimensionGlobe.MOD_ID, "section_update"), buf);
+		// new Identifier(DimensionGlobe.MOD_ID, "section_update")
+		CustomPayloadS2CPacket clientBoundPacket = new CustomPayloadS2CPacket(buf);
 		for (ServerPlayerEntity nearbyPlayer : nearbyPlayers) {
 			nearbyPlayer.networkHandler.sendPacket(clientBoundPacket);
 		}
@@ -94,7 +96,7 @@ public class GlobeSectionManagerServer {
 		if (globeID == -1) {
 			return;
 		}
-		ServerWorld serverWorld = (ServerWorld) playerEntity.world;
+		ServerWorld serverWorld = (ServerWorld) playerEntity.getWorld();
 
 		GlobeManager.Globe globe = GlobeManager.getInstance(serverWorld).getGlobeByID(globeID);
 
@@ -119,7 +121,8 @@ public class GlobeSectionManagerServer {
 			buf.writeNbt(section.toEntityTag(globe.getGlobeLocation()));
 		}
 
-		CustomPayloadS2CPacket clientBoundPacket = new CustomPayloadS2CPacket(new Identifier(DimensionGlobe.MOD_ID, "section_update"), buf);
+		// new Identifier(DimensionGlobe.MOD_ID, "section_update")
+		CustomPayloadS2CPacket clientBoundPacket = new CustomPayloadS2CPacket(buf);
 		playerEntity.networkHandler.sendPacket(clientBoundPacket);
 	}
 

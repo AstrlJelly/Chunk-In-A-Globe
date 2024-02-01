@@ -25,8 +25,10 @@ public class GlobeManager extends PersistentState {
 			world = world.getServer().getWorld(World.OVERWORLD);
 		}
 		final ServerWorld serverWorld = world;
+		Type<GlobeManager> type = new Type<GlobeManager>(() -> new GlobeManager(serverWorld), (NbtCompound tag) -> GlobeManager.fromNbt(new GlobeManager(serverWorld), tag), null);
+
 		return serverWorld.getPersistentStateManager()
-				.getOrCreate((NbtCompound tag) -> GlobeManager.fromNbt(new GlobeManager(serverWorld), tag), () -> new GlobeManager(serverWorld), SAVE_KEY);
+			.getOrCreate(type, SAVE_KEY);
 	}
 
 	private Int2ObjectMap<Globe> globes = new Int2ObjectArrayMap<>();
